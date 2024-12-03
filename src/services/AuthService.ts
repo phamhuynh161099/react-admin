@@ -15,9 +15,7 @@ const login = async (payload: LoginPayload): Promise<User | null> => {
         const response = await axios.post('/auth/login', {
             email: payload.email,
             password: payload.password
-        })
-
-        
+        })    
 
         return response.data.user;
 

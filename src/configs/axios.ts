@@ -1,7 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
-export const baseUrl = 'http://103.155.161.244:8000/api/v1/'
+// export const baseUrl = 'http://103.155.161.244:8000/api/v1/'
 // export const baseUrl = 'http://127.0.0.1:8000/api/v1/'
+
+export const baseUrl = 'http://pham-huynh.io.vn:8000/api/v1/'
 
 const apiCall: AxiosInstance = axios.create({
     baseURL: baseUrl,
