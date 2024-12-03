@@ -1,0 +1,52 @@
+.mt-10px {
+    margin-top: 10px;
+}
+
+.cal-wrapper {
+    // height: 300px;
+    // width: 500px;
+    // background-color: aqua;
+}
+
+.cal-monitor {
+    height: 50px;
+    width: 500px;
+    background-color: aliceblue;
+    border: 1px solid black;
+    
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    padding: 10px;
+}
+
+.cal-monitor-result {
+    height: 50px;
+    width: 500px;
+    background-color: aliceblue;
+    border: 1px solid black;
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    
+}
+
+.block-keyboard {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 500px;
+}
+
+.keyboard {
+    margin-top: 10px;
+    background-color: aliceblue;
+    height: 50px;
+    width: calc(500px / 4 - 10px);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+}
