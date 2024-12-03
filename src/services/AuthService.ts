@@ -17,6 +17,8 @@ const login = async (payload: LoginPayload): Promise<User | null> => {
             password: payload.password
         })
 
+        
+
         return response.data.user;
 
     } catch (error) {
