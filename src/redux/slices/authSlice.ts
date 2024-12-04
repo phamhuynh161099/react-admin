@@ -72,6 +72,6 @@ export const authAction = authSlice.actions;
 // export const { login, loginSuccess, loginFail } = authSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectAuth = (state: RootState) => state.counter.value
+export const selectAuth = (state: RootState) => state.auth.user
 
 export const authReducer = authSlice.reducer

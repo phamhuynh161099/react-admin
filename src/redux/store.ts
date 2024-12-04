@@ -3,7 +3,7 @@ import counterReducer from './slices/counterSlice'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 import { authReducer } from './slices/authSlice'
-
+import { loadingReducer } from './slices/loadingSlice'
 
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
@@ -13,7 +13,8 @@ const middleware = [sagaMiddleware]
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    auth: authReducer
+    auth: authReducer,
+    loading : loadingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(middleware),
