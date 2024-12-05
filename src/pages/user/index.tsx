@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useAppDispatch } from "@/redux/hook";
 import { loadingAction } from "@/redux/slices/loadingSlice";
+import EditUserDialog from "./components/editUserDialog";
 
 interface FilterPage {
   page: number;
@@ -24,6 +25,8 @@ const UserPage = () => {
     page: 1,
   });
   const [openAddUserDialog, setOpenAddUserDialog] = useState<boolean>(false);
+  const [openEditUserDialog, setOpenEditUserDialog] = useState<boolean>(false);
+  const [selectedUser,setSelectedUser] = useState<any>();
 
   // Queries
   const { data, isLoading, refetch } = useQuery({
@@ -48,13 +51,9 @@ const UserPage = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log('can keo data');
+      console.log("can keo data");
     }
   }, [filterPage]);
-
-  const handleClickOpenAddUserDialog = () => {
-    setOpenAddUserDialog((prev) => !prev);
-  };
 
   const handleChangePage = (value: string) => {
     let currentPage = Number(filterPage.page);
@@ -69,9 +68,33 @@ const UserPage = () => {
     }
   };
 
+  //! Add User
+  const handleClickOpenAddUserDialog = () => {
+    setOpenAddUserDialog((prev) => !prev);
+  };
+
   const handleAddUserSuccces = () => {
     refetch();
-  }
+    handleClickOpenAddUserDialog();
+  };
+  //! Add User
+
+  //! Edit User
+  const handleClickOpenEditUserDialog = () => {
+    setOpenEditUserDialog((prev) => !prev);
+  };
+
+  const handleEditUserSuccces = () => {
+    refetch();
+    handleClickOpenEditUserDialog();
+  };
+  //! Edit User
+
+  const handleClickEdit = (index: number) => {
+    console.log("data", data?.users[index]);
+    setSelectedUser(data?.users[index])
+    handleClickOpenEditUserDialog();
+  };
 
   return (
     <>
@@ -109,7 +132,7 @@ const UserPage = () => {
             </thead>
             <tbody>
               {!isLoading &&
-                data?.users.map((_data) => (
+                data?.users.map((_data, index) => (
                   <tr
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     key={_data["id"]}
@@ -122,8 +145,11 @@ const UserPage = () => {
                     </th>
                     <td className="p-4">{_data["name"]}</td>
                     <td className="p-4">{_data["email"]}</td>
-                    <td className="p-4 flex justify-center">
-                      <Button className="bg-yellow-400 text-black">
+                    <td className="p-4 flex justify-center gap-1">
+                      <Button
+                        className="bg-yellow-400 text-black"
+                        onClick={() => handleClickEdit(index)}
+                      >
                         <UserRoundPen />
                       </Button>
                       <Button className="bg-red-400 text-black">
@@ -155,18 +181,19 @@ const UserPage = () => {
               onClick={() => handleChangePage("prev")}
             >
               <CircleArrowLeft className="mr-2" />
-              Previous
+              <p className="hidden sm:block">Previous</p>
             </div>
 
             <div className="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-              {filterPage.page} / {filterPage?.lastPage}
+              {filterPage.page}/
+              <span className="text-red-400">{filterPage?.lastPage}</span>
             </div>
 
             <div
               className="cursor-pointer flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               onClick={() => handleChangePage("next")}
             >
-              Next
+              <p className="hidden sm:block">Previous</p>
               <CircleArrowRight className="ml-2" />
             </div>
           </div>
@@ -177,6 +204,13 @@ const UserPage = () => {
         open={openAddUserDialog}
         handleClickOpenAddUserDialog={handleClickOpenAddUserDialog}
         handleAddUserSuccces={handleAddUserSuccces}
+      />
+
+      <EditUserDialog
+        open={openEditUserDialog}
+        selectedUser = {selectedUser}
+        handleClickOpenEditUserDialog={handleClickOpenEditUserDialog}
+        handleEditUserSuccces={handleEditUserSuccces}
       />
     </>
   );

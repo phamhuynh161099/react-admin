@@ -18,14 +18,16 @@ import useUploadImage from "@/hooks/use-upload-images";
 
 interface AddUserProps {
   open: boolean;
-  handleClickOpenAddUserDialog: () => void;
-  handleAddUserSuccces: () => void;
+  selectedUser: any;
+  handleClickOpenEditUserDialog: () => void;
+  handleEditUserSuccces: () => void;
 }
 
-const AddUserDialog = ({
+const EditUserDialog = ({
   open,
-  handleClickOpenAddUserDialog,
-  handleAddUserSuccces,
+  selectedUser,
+  handleClickOpenEditUserDialog,
+  handleEditUserSuccces,
 }: AddUserProps) => {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState({});
@@ -33,19 +35,23 @@ const AddUserDialog = ({
   // const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("data change", userData);
-  }, [userData]);
+    if (!!selectedUser) {
+      setUserData(selectedUser);
+    }
+  }, [selectedUser]);
 
   const handleSubmitForm = async () => {
     try {
-      
       dispatch(loadingAction.setStartLoading(true));
-      const response = await userApi.createUserForm(userData as CreateUserPayload,images);
+      const response = await userApi.editUserForm(
+        selectedUser['id'],
+        userData as CreateUserPayload,
+        images
+      );
       console.log("response", response);
 
-      alert("Add User Success");
-      handleAddUserSuccces();
-
+      alert("Update User Success!");
+      handleEditUserSuccces();
     } catch (error) {
       dispatch(loadingAction.setEndLoading(false));
       alert("error");
@@ -54,13 +60,19 @@ const AddUserDialog = ({
     }
   };
 
+  const handleLinkImage = (url: string) => {
+    console.log('url',url)
+    const _url ='http://127.0.0.1:8000/' + url.replace("public", "storage");
+    return _url;
+  };
+
   return (
     <>
       <Dialog
         open={open}
         onOpenChange={() => {
           removeAllImage();
-          handleClickOpenAddUserDialog();
+          handleClickOpenEditUserDialog();
         }}
         modal={true}
       >
@@ -71,7 +83,7 @@ const AddUserDialog = ({
           }}
         >
           <DialogHeader>
-            <DialogTitle className="text-3xl">Add New User</DialogTitle>
+            <DialogTitle className="text-3xl">Edit User</DialogTitle>
             <DialogDescription>
               Pls Enter Data, if those field has
               <span className="text-red-700 text-xl inline-block">(*)</span>
@@ -85,7 +97,7 @@ const AddUserDialog = ({
               </Label>
               <Input
                 id="name"
-                defaultValue=""
+                defaultValue={selectedUser && selectedUser["name"]}
                 className="col-span-3"
                 onBlur={(e) =>
                   setUserData({ ...userData, name: e.target.value })
@@ -97,7 +109,7 @@ const AddUserDialog = ({
               </Label>
               <Input
                 id="email"
-                defaultValue=""
+                defaultValue={selectedUser && selectedUser["email"]}
                 className="col-span-3"
                 onBlur={(e) =>
                   setUserData({ ...userData, email: e.target.value })
@@ -135,8 +147,16 @@ const AddUserDialog = ({
               <div className="text-center">
                 <label htmlFor="upload-image">
                   <Avatar className="size-[100px] inline-block cursor-pointer shadow-md border">
+                    {/* {(selectedUser && selectedUser['image']) ? (
+                      <AvatarImage src="http://127.0.0.1:8000/storage/phamhuynh161099/image/avatar/737e5d98-0710-484e-918e-2fe243258502.png" />
+                    ) : (
+                      ""
+                    )} */}
+
                     {images.length > 0 ? (
                       <AvatarImage src={images[0].preview} />
+                    ) : selectedUser && selectedUser["image"] ? (
+                      <AvatarImage src={handleLinkImage(selectedUser["image"])} />
                     ) : (
                       ""
                     )}
@@ -156,4 +176,4 @@ const AddUserDialog = ({
   );
 };
 
-export default AddUserDialog;
+export default EditUserDialog;
