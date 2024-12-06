@@ -49,7 +49,7 @@ const Calculator = () => {
 
     if (value === "=") {
       let calc = eval(monitor);
-      console.log('run =')
+      console.log("run =");
       setResult(calc);
 
       return;
@@ -58,7 +58,7 @@ const Calculator = () => {
 
   return (
     <>
-      <div className="cal-wrapper">
+      <div className="cal-wrapper bg-blue-400 box-border">
         <div className="cal-monitor">{monitor}</div>
 
         <div className="cal-monitor-result mt-10px">{result}</div>
@@ -128,6 +128,8 @@ const Calculator = () => {
             /
           </div>
         </div>
+
+        <div className="w-[100%] m-4 min-h-[200px] rounded-[4px] shadow-md bg-red-400"></div>
       </div>
     </>
   );

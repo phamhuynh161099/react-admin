@@ -17,6 +17,7 @@ import Calculator from "./pages/Calculator.tsx";
 import AdminAuthMiddleware from "./middlewares/adminAuth.ts";
 import NoAuthMiddleware from "./middlewares/noAuth.ts";
 import UserPage from "./pages/user/index.tsx";
+import ScanQrPage from "./pages/ScanQr.tsx";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/calculator",
     element: <Calculator />,
+  },
+  {
+    path: "/scan-qr",
+    element: <ScanQrPage />,
   },
 ]);
 
