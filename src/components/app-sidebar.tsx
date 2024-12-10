@@ -38,7 +38,6 @@ const data = {
       title: "User",
       url: "#",
       icon: UserCog,
-      isActive: true,
       items: [
         {
           title: "List",
@@ -46,7 +45,7 @@ const data = {
         },
         {
           title: "Role",
-          url: "#",
+          url: "/admin/user/role",
         },
         {
           title: "Settings",
@@ -60,8 +59,8 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Dashboard",
+          url: "/admin/model-dashboard",
         },
         {
           title: "Explorer",

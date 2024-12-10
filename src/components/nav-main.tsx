@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
+import { ChevronRight, type LucideIcon } from "lucide-react";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,22 +16,42 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { NavLink, useLocation } from "react-router-dom";
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
     items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+      title: string;
+      url: string;
+      isActive?: boolean;
+    }[];
+  }[];
 }) {
+  const location = useLocation();
+  
+  items.forEach((mainNav) => {
+    let flagActive = false; 
+    mainNav?.items?.forEach((subNav) => {
+      if (subNav.url === location.pathname) {
+         subNav.isActive = true;
+         flagActive = true;
+      } else {
+        subNav.isActive = false;
+      }
+    });
+
+    flagActive ? mainNav.isActive = true : mainNav.isActive = false;
+  });
+
+  console.log("re-render,nav bar");
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
@@ -41,6 +61,7 @@ export function NavMain({
             key={item.title}
             asChild
             defaultOpen={item.isActive}
+            // open={item.isActive}
             className="group/collapsible"
           >
             <SidebarMenuItem>
@@ -55,10 +76,10 @@ export function NavMain({
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                      <SidebarMenuSubButton asChild isActive={subItem.isActive}>
+                        <NavLink to={subItem.url}>
                           <span>{subItem.title}</span>
-                        </a>
+                        </NavLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
@@ -69,5 +90,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

@@ -18,6 +18,7 @@ import AdminAuthMiddleware from "./middlewares/adminAuth.ts";
 import NoAuthMiddleware from "./middlewares/noAuth.ts";
 import UserPage from "./pages/user/index.tsx";
 import ScanQrPage from "./pages/ScanQr.tsx";
+import RolePage from "./pages/role/index.tsx";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -40,7 +41,9 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "user-dashboard", element: <DashboardPage /> },
+      { path: "model-dashboard", element: <DashboardPage /> },
       { path: "user/list", element: <UserPage /> },
+      { path: "user/role", element: <RolePage /> },
     ],
   },
   {
